@@ -1,5 +1,4 @@
 window.addEventListener("DOMContentLoaded", () => {
-  
   //Blocks
   const header = require("./modules/blocks/header"),
     headerHome = require("./modules/blocks/header-home"),
@@ -13,7 +12,8 @@ window.addEventListener("DOMContentLoaded", () => {
   //Pages
   const home = require("./modules/pages/home"),
     catalog = require("./modules/pages/catalog"),
-    product = require("./modules/pages/product");
+    product = require("./modules/pages/product"),
+    cart = require("./modules/pages/cart");
 
   //Blocks
 
@@ -46,6 +46,9 @@ window.addEventListener("DOMContentLoaded", () => {
   } catch {}
   try {
     product();
+  } catch {}
+  try {
+    cart();
   } catch {}
 
   //Price

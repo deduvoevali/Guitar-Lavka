@@ -285,6 +285,77 @@ module.exports = showCase;
 
 /***/ }),
 
+/***/ "./src/js/modules/pages/cart.js":
+/*!**************************************!*\
+  !*** ./src/js/modules/pages/cart.js ***!
+  \**************************************/
+/***/ (function(module) {
+
+function cartPage() {
+  function onPriceChange() {
+    const productCard = document.querySelectorAll(".item__inner");
+
+    // adding the specials buttons events
+
+    productCard.forEach((card) => {
+      card.addEventListener("click", function (e) {
+        //creating card LOCAL variables
+
+        const itemPrice = card.querySelector("#price"),
+          initalPrice = card.querySelector(".item__quantity-display").getAttribute("data-price"),
+          productsQuantity = card.querySelector(".item__quantity-display");
+
+        if (e.target.className.includes("minus")) {
+          if (productsQuantity.value > 1) productsQuantity.value--; // changing input value
+
+          itemPrice.textContent = "₴" + initalPrice * productsQuantity.value;
+        }
+
+        if (e.target.className.includes("plus")) {
+          if (productsQuantity.value < 10) productsQuantity.value++; // changing input value
+
+          itemPrice.textContent = "₴" + initalPrice * productsQuantity.value;
+        }
+
+        // changing check values
+
+        const totalCheckQuantity = document.querySelector(".total-check-quantity"),
+          totalCheckPrice = document.querySelector(".total-check-price");
+
+        const pricesArr = [],
+          quantityArr = [];
+
+        document.querySelectorAll(".item__price").forEach((price) => pricesArr.push(parseInt(price.textContent.slice(1)))); // generating all cards prices array
+        document.querySelectorAll(".item__quantity-display").forEach((quantity) => quantityArr.push(parseInt(quantity.value))); // generating all cards prices array
+
+        totalCheckQuantity.textContent = quantityArr.reduce((prev, curr) => prev + curr) + " шт.";
+        totalCheckPrice.textContent = "₴" + pricesArr.reduce((prev, curr) => prev + curr);
+      });
+    });
+  }
+
+  onPriceChange();
+
+  function buttonEvent() {
+    document.querySelector(".check__submit").addEventListener("click", function (e) {
+      e.preventDefault();
+      this.textContent = "Оформляем...";
+
+      setTimeout(() => {
+        document.location.href = "success.html";
+        this.textContent = "Перейти к оформлению";
+      }, 1000);
+    });
+  }
+
+  buttonEvent();
+}
+
+module.exports = cartPage;
+
+
+/***/ }),
+
 /***/ "./src/js/modules/pages/catalog.js":
 /*!*****************************************!*\
   !*** ./src/js/modules/pages/catalog.js ***!
@@ -307,15 +378,13 @@ function catalog() {
     document.querySelectorAll(".add-to-cart__btn").forEach((btn) => {
       btn.addEventListener("click", function () {
         this.classList.add("add-to-cart__btn--active");
-        this.textContent = "ПЕРЕЙТИ В КОРЗИНУ";
+        this.textContent = "В КОРЗИНУ";
         this.addEventListener("click", () => {
-          document.location.href = "index.html";
+          document.location.href = "cart.html";
         });
       });
     });
   }
-
-  addToCartBtn();
 
   function generateProducts() {
     class Card {
@@ -458,10 +527,13 @@ function catalog() {
         this.inStockDisplay();
 
         this.parent.append(card);
+
+        addToCartBtn();
       }
     }
 
     const indeces = [];
+
     for (let i = 0; i < 50; i++) {
       const randomIndex = Math.round(Math.random() * 6);
       indeces.push(randomIndex);
@@ -494,8 +566,6 @@ function catalog() {
   generateProducts();
 
   function pushCardValueToLocalStorage() {
-    localStorage.clear();
-
     const cards = document.querySelectorAll(".card");
 
     cards.forEach((card) => {
@@ -529,7 +599,7 @@ function catalog() {
         });
       } else {
         document.querySelectorAll("#none").forEach((element) => {
-          element.parentElement.parentElement.parentElement.style.display = "block";
+          element.parentElement.parentElement.parentElement.style.display = "flex";
         });
       }
     });
@@ -540,18 +610,27 @@ function catalog() {
   function sortingContent() {
     const sortingSelect = document.querySelector("#catalog-sorting-type");
     const catalog = document.querySelector(".catalog__grid");
+
     function insertAfter(elem, refElem) {
       return refElem.parentNode.insertBefore(elem, refElem.nextSibling);
     }
 
     sortingSelect.addEventListener("change", function () {
+      document.querySelectorAll(".card").forEach((card) => {
+        card.remove();
+      });
+
+      generateProducts(); // reload catalog content
+
+      let childrenLength = catalog.children.length - 1;
+
       switch (this.selectedIndex) {
         case 0:
           document.location.reload();
           break;
         case 1:
-          for (let i = 0; i < catalog.children.length; i++) {
-            for (let j = 0; j < catalog.children.length; j++) {
+          for (let i = 0; i < childrenLength; i++) {
+            for (let j = 0; j < childrenLength; j++) {
               if (+catalog.children[i].getAttribute("data-reviews") > +catalog.children[j].getAttribute("data-reviews")) {
                 const replaceNode = catalog.replaceChild(catalog.children[i], catalog.children[j]);
                 insertAfter(replaceNode, catalog.children[i]);
@@ -561,8 +640,8 @@ function catalog() {
 
           break;
         case 2:
-          for (let i = 0; i < catalog.children.length; i++) {
-            for (let j = 0; j < catalog.children.length; j++) {
+          for (let i = 0; i < childrenLength; i++) {
+            for (let j = 0; j < childrenLength; j++) {
               if (+catalog.children[i].getAttribute("data-sort") < +catalog.children[j].getAttribute("data-sort")) {
                 const replaceNode = catalog.replaceChild(catalog.children[i], catalog.children[j]);
                 insertAfter(replaceNode, catalog.children[i]);
@@ -572,8 +651,8 @@ function catalog() {
 
           break;
         case 3:
-          for (let i = 0; i < catalog.children.length; i++) {
-            for (let j = 0; j < catalog.children.length; j++) {
+          for (let i = 0; i < childrenLength; i++) {
+            for (let j = 0; j < childrenLength; j++) {
               if (+catalog.children[i].getAttribute("data-sort") > +catalog.children[j].getAttribute("data-sort")) {
                 const replaceNode = catalog.replaceChild(catalog.children[i], catalog.children[j]);
                 insertAfter(replaceNode, catalog.children[i]);
@@ -582,6 +661,8 @@ function catalog() {
           }
           break;
       }
+
+      cardsQuantity();
     });
   }
 
@@ -591,15 +672,28 @@ function catalog() {
     let catalogItems = document.querySelectorAll(".card"),
       pages;
 
-    function paginationNavButtons() {
+    function sliceCatalogItems(itemsQuant) {
+      pages = [];
+      for (let i = 0; i < catalogItems.length; i += itemsQuant) {
+        pages.push([...catalogItems].slice(i, i + itemsQuant));
+      }
+    }
+
+    function displayPage(pageIndex) {
+      pages[pageIndex].forEach((item) => {
+        document.querySelector(".catalog__grid").append(item);
+      });
+    }
+
+    function generatePaginationButtons(currentPageIndex) {
+      if (document.querySelectorAll(".page").length > 0) document.querySelectorAll(".page").forEach((page) => page.remove());
+
       const pageline = document.querySelector(".pagination__pages");
 
       function pageEvent(e) {
         e.preventDefault();
 
-        for (let item of pageline.children) {
-          item.classList.remove("page--active");
-        }
+        for (let item of pageline.children) item.classList.remove("page--active");
 
         this.classList.add("page--active");
 
@@ -609,7 +703,7 @@ function catalog() {
       for (let i = 0; i < pages.length; i++) {
         const pageLink = document.createElement("a");
         pageLink.setAttribute("href", "#");
-        i === 0 ? (pageLink.className = "page page--active") : (pageLink.className = "page");
+        i === currentPageIndex ? (pageLink.className = "page page--active") : (pageLink.className = "page");
         pageLink.textContent = i + 1;
         pageLink.addEventListener("click", pageEvent);
 
@@ -617,35 +711,23 @@ function catalog() {
       }
     }
 
-    function sliceCatalogItems(itemsQuant) {
-      pages = [];
-      for (let i = 0; i < catalogItems.length; i += itemsQuant) {
-        pages.push([...catalogItems].slice(i, i + itemsQuant));
-      }
-    }
+    function managePages(pageIndex) {
+      sliceCatalogItems(+document.querySelector("#cards-quantity__input").value);
 
-    function clearCatalog() {
       catalogItems.forEach((item) => {
         item.remove();
       });
-    }
-
-    function displayPage(pageIndex) {
-      pages[pageIndex].forEach((item) => {
-        document.querySelector(".catalog__grid").append(item);
-      });
-    }
-
-    function managePages(pageIndex) {
-      sliceCatalogItems(+document.querySelector("#cards-quantity__input").value);
-      clearCatalog();
       displayPage(pageIndex);
+      generatePaginationButtons(pageIndex); //
     }
 
     managePages(0);
 
-    paginationNavButtons();
-    document.querySelector("#cards-quantity__input").addEventListener("change", () => managePages(document.querySelector(".page--active").textContent - 1));
+    generatePaginationButtons(0);
+
+    document.querySelector("#cards-quantity__input").addEventListener("change", () => {
+      managePages(document.querySelector(".page--active").textContent - 1);
+    });
   }
 
   cardsQuantity();
@@ -667,6 +749,12 @@ function catalog() {
     });
 
     wideBtn.addEventListener("click", function () {
+      document.querySelectorAll(".card").forEach((card) => {
+        card.remove();
+      });
+
+      generateProducts(); // reload catalog content
+
       this.classList.add("active-layout");
       gridBtn.classList.remove("active-layout");
 
@@ -675,6 +763,8 @@ function catalog() {
       document.querySelectorAll(".card").forEach((card) => {
         card.classList.add("card--wide");
       });
+
+      cardsQuantity();
     });
   }
 
@@ -781,8 +871,7 @@ function product() {
       link.firstChild.setAttribute("alt", localStorage.getItem("card-name"));
     });
 
-
-    document.querySelector("title").textContent = localStorage.getItem("card-category") + ': ' + localStorage.getItem("card-name") + ' - Guitar Lavka';
+    document.querySelector("title").textContent = localStorage.getItem("card-category") + ": " + localStorage.getItem("card-name") + " - Guitar Lavka";
     document.querySelector(".product__category").textContent = localStorage.getItem("card-category");
     document.querySelector(".product__name").textContent = localStorage.getItem("card-name");
     document.querySelector(".control__price").textContent = localStorage.getItem("card-price").slice(1);
@@ -834,6 +923,27 @@ function product() {
     plugins: [lgZoom, lgThumbnail],
     speed: 700,
   });
+
+  function onControlButtons() {
+    document.querySelector(".control__add-to-cart").addEventListener("click", function () {
+      this.classList.add("control__add-to-cart--active");
+      this.textContent = "В КОРЗИНУ";
+      this.addEventListener("click", () => {
+        document.location.href = "cart.html";
+      });
+    });
+
+    document.querySelector(".control__buy").addEventListener("click", function () {
+      this.classList.add("control__buy--active");
+      this.textContent = "Покупаем...";
+
+      setTimeout(() => {
+        document.location.href = "cart.html";
+      }, 1000);
+    });
+  }
+
+  onControlButtons();
 }
 
 module.exports = product;
@@ -875,7 +985,6 @@ var __webpack_exports__ = {};
   !*** ./src/js/index.js ***!
   \*************************/
 window.addEventListener("DOMContentLoaded", () => {
-  
   //Blocks
   const header = __webpack_require__(/*! ./modules/blocks/header */ "./src/js/modules/blocks/header.js"),
     headerHome = __webpack_require__(/*! ./modules/blocks/header-home */ "./src/js/modules/blocks/header-home.js"),
@@ -889,7 +998,8 @@ window.addEventListener("DOMContentLoaded", () => {
   //Pages
   const home = __webpack_require__(/*! ./modules/pages/home */ "./src/js/modules/pages/home.js"),
     catalog = __webpack_require__(/*! ./modules/pages/catalog */ "./src/js/modules/pages/catalog.js"),
-    product = __webpack_require__(/*! ./modules/pages/product */ "./src/js/modules/pages/product.js");
+    product = __webpack_require__(/*! ./modules/pages/product */ "./src/js/modules/pages/product.js"),
+    cart = __webpack_require__(/*! ./modules/pages/cart */ "./src/js/modules/pages/cart.js");
 
   //Blocks
 
@@ -922,6 +1032,9 @@ window.addEventListener("DOMContentLoaded", () => {
   } catch {}
   try {
     product();
+  } catch {}
+  try {
+    cart();
   } catch {}
 
   //Price

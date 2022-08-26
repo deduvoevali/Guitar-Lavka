@@ -6,8 +6,7 @@ function product() {
       link.firstChild.setAttribute("alt", localStorage.getItem("card-name"));
     });
 
-
-    document.querySelector("title").textContent = localStorage.getItem("card-category") + ': ' + localStorage.getItem("card-name") + ' - Guitar Lavka';
+    document.querySelector("title").textContent = localStorage.getItem("card-category") + ": " + localStorage.getItem("card-name") + " - Guitar Lavka";
     document.querySelector(".product__category").textContent = localStorage.getItem("card-category");
     document.querySelector(".product__name").textContent = localStorage.getItem("card-name");
     document.querySelector(".control__price").textContent = localStorage.getItem("card-price").slice(1);
@@ -59,6 +58,27 @@ function product() {
     plugins: [lgZoom, lgThumbnail],
     speed: 700,
   });
+
+  function onControlButtons() {
+    document.querySelector(".control__add-to-cart").addEventListener("click", function () {
+      this.classList.add("control__add-to-cart--active");
+      this.textContent = "В КОРЗИНУ";
+      this.addEventListener("click", () => {
+        document.location.href = "cart.html";
+      });
+    });
+
+    document.querySelector(".control__buy").addEventListener("click", function () {
+      this.classList.add("control__buy--active");
+      this.textContent = "Покупаем...";
+
+      setTimeout(() => {
+        document.location.href = "cart.html";
+      }, 1000);
+    });
+  }
+
+  onControlButtons();
 }
 
 module.exports = product;
