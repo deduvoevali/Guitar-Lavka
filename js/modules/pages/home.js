@@ -5,8 +5,8 @@ function home() {
 
   const promoSlider = new Swiper(".promo-slider", {
     loop: true,
-    preloadImages: false,
-    speed: 1200,
+    //preloadImages: false,
+    speed: 700,
     lazy: {
       loadOnTransitionStart: false,
       loadPrevNext: true,

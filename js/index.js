@@ -7,7 +7,8 @@ window.addEventListener("DOMContentLoaded", () => {
   const pushCardValueToLocalStorage = require("./modules/blocks/cards-localStorage"),
     popular = require("./modules/blocks/popular"),
     showcase = require("./modules/blocks/showcase"),
-    price = require("./modules/blocks/price");
+    price = require("./modules/blocks/price"),
+    addtoCartBtn = require("./modules/blocks/add-to-cart-btn");
 
   //Pages
   const home = require("./modules/pages/home"),
@@ -34,6 +35,10 @@ window.addEventListener("DOMContentLoaded", () => {
   } catch {}
   try {
     showcase();
+  } catch {}
+
+  try {
+    addtoCartBtn();
   } catch {}
 
   //Pages

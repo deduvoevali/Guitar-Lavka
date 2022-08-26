@@ -1,6 +1,29 @@
 /******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/js/modules/blocks/add-to-cart-btn.js":
+/*!**************************************************!*\
+  !*** ./src/js/modules/blocks/add-to-cart-btn.js ***!
+  \**************************************************/
+/***/ (function(module) {
+
+function addToCartBtn() {
+  document.querySelectorAll(".add-to-cart__btn").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      this.classList.add("add-to-cart__btn--active");
+      this.textContent = "В КОРЗИНУ";
+      this.addEventListener("click", () => {
+        document.location.href = "cart.html";
+      });
+    });
+  });
+}
+
+module.exports = addToCartBtn;
+
+
+/***/ }),
+
 /***/ "./src/js/modules/blocks/cards-localStorage.js":
 /*!*****************************************************!*\
   !*** ./src/js/modules/blocks/cards-localStorage.js ***!
@@ -293,7 +316,7 @@ module.exports = showCase;
 
 function cartPage() {
   function onPriceChange() {
-    const productCard = document.querySelectorAll(".item__inner");
+    const productCard = document.querySelectorAll(".cart-promo__product-item .item__inner");
 
     // adding the specials buttons events
 
@@ -789,8 +812,8 @@ function home() {
 
   const promoSlider = new Swiper(".promo-slider", {
     loop: true,
-    preloadImages: false,
-    speed: 1200,
+    //preloadImages: false,
+    speed: 700,
     lazy: {
       loadOnTransitionStart: false,
       loadPrevNext: true,
@@ -993,7 +1016,8 @@ window.addEventListener("DOMContentLoaded", () => {
   const pushCardValueToLocalStorage = __webpack_require__(/*! ./modules/blocks/cards-localStorage */ "./src/js/modules/blocks/cards-localStorage.js"),
     popular = __webpack_require__(/*! ./modules/blocks/popular */ "./src/js/modules/blocks/popular.js"),
     showcase = __webpack_require__(/*! ./modules/blocks/showcase */ "./src/js/modules/blocks/showcase.js"),
-    price = __webpack_require__(/*! ./modules/blocks/price */ "./src/js/modules/blocks/price.js");
+    price = __webpack_require__(/*! ./modules/blocks/price */ "./src/js/modules/blocks/price.js"),
+    addtoCartBtn = __webpack_require__(/*! ./modules/blocks/add-to-cart-btn */ "./src/js/modules/blocks/add-to-cart-btn.js");
 
   //Pages
   const home = __webpack_require__(/*! ./modules/pages/home */ "./src/js/modules/pages/home.js"),
@@ -1020,6 +1044,10 @@ window.addEventListener("DOMContentLoaded", () => {
   } catch {}
   try {
     showcase();
+  } catch {}
+
+  try {
+    addtoCartBtn();
   } catch {}
 
   //Pages

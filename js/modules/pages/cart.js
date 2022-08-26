@@ -1,6 +1,6 @@
 function cartPage() {
   function onPriceChange() {
-    const productCard = document.querySelectorAll(".item__inner");
+    const productCard = document.querySelectorAll(".cart-promo__product-item .item__inner");
 
     // adding the specials buttons events
 
