@@ -1,51 +1,51 @@
 function catalog() {
-  function filterArrows() {
-    document.querySelectorAll(".filter__name-wrapper").forEach((item) => {
-      item.addEventListener("click", function () {
-        this.parentElement.classList.toggle("filter--active");
-        this.lastElementChild.classList.toggle("filter__arrow--active");
-      });
-    });
-  }
+	function filterArrows() {
+		document.querySelectorAll(".filter__name-wrapper").forEach((item) => {
+			item.addEventListener("click", function () {
+				this.parentElement.classList.toggle("filter--active");
+				this.lastElementChild.classList.toggle("filter__arrow--active");
+			});
+		});
+	}
 
-  filterArrows();
+	filterArrows();
 
-  function addToCartBtn() {
-    document.querySelectorAll(".add-to-cart__btn").forEach((btn) => {
-      btn.addEventListener("click", function () {
-        this.classList.add("add-to-cart__btn--active");
-        this.textContent = "В КОРЗИНУ";
-        this.addEventListener("click", () => {
-          document.location.href = "cart.html";
-        });
-      });
-    });
-  }
+	function addToCartBtn() {
+		document.querySelectorAll(".add-to-cart__btn").forEach((btn) => {
+			btn.addEventListener("click", function () {
+				this.classList.add("add-to-cart__btn--active");
+				this.textContent = "В КОРЗИНУ";
+				this.addEventListener("click", () => {
+					document.location.href = "cart.html";
+				});
+			});
+		});
+	}
 
-  function generateProducts() {
-    class Card {
-      constructor(name, imgSrc, category, price, discount, rating, reviewsCounter, inStock) {
-        this.name = name;
-        this.imgSrc = imgSrc;
-        this.category = category;
-        this.price = price;
-        this.discount = discount;
-        this.rating = rating;
-        this.inStock = inStock;
-        this.inStockDisplay();
+	function generateProducts() {
+		class Card {
+			constructor(name, imgSrc, category, price, discount, rating, reviewsCounter, inStock) {
+				this.name = name;
+				this.imgSrc = imgSrc;
+				this.category = category;
+				this.price = price;
+				this.discount = discount;
+				this.rating = rating;
+				this.inStock = inStock;
+				this.inStockDisplay();
 
-        this.reviewsCounter = reviewsCounter;
+				this.reviewsCounter = reviewsCounter;
 
-        this.parent = document.querySelector(".catalog__grid");
-      }
+				this.parent = document.querySelector(".catalog__grid");
+			}
 
-      inStockDisplay() {
-        this.inStock ? (this.inStock = "") : (this.inStock = "none");
-      }
+			inStockDisplay() {
+				this.inStock ? (this.inStock = "") : (this.inStock = "none");
+			}
 
-      render() {
-        const card = document.createElement("div");
-        card.innerHTML = `
+			render() {
+				const card = document.createElement("div");
+				card.innerHTML = `
             <a href="product.html">
               <img class="card__image" src=${this.imgSrc} alt="card">
             </a>
@@ -154,257 +154,262 @@ function catalog() {
               </div>
             </div>`;
 
-        card.className = "card";
+				card.className = "card";
 
-        card.setAttribute("data-sort", this.price.replace(/ /g, ""));
-        card.setAttribute("data-reviews", this.reviewsCounter.replace(/ /g, "").replace(/[А-я]/g, ""));
-        card.setAttribute("data-rating", this.rating);
+				card.setAttribute("data-sort", this.price.replace(/ /g, ""));
+				card.setAttribute("data-reviews", this.reviewsCounter.replace(/ /g, "").replace(/[А-я]/g, ""));
+				card.setAttribute("data-rating", this.rating);
 
-        this.inStockDisplay();
+				this.inStockDisplay();
 
-        this.parent.append(card);
+				this.parent.append(card);
 
-        addToCartBtn();
-      }
-    }
+				addToCartBtn();
+			}
+		}
 
-    const indeces = [];
+		const indeces = [];
 
-    for (let i = 0; i < 50; i++) {
-      const randomIndex = Math.round(Math.random() * 6);
-      indeces.push(randomIndex);
-      switch (randomIndex) {
-        case 0:
-          new Card("Kepma A1C Sunburst", "img/catalog/card-images/a1c-1.jpg", "Гитары", "18 010", "", 100, "15 отзывов", false).render();
-          break;
-        case 1:
-          new Card("Enya EUC-MAD", "img/catalog/card-images/ukulele.png", "Укулелe", "22 210", "24 890", 90, "12 отзывов", true).render();
-          break;
-        case 2:
-          new Card("Kepma ES36-E TRANS K10 Black", "img/catalog/card-images/kepma-black.jpeg", "Гитары", "32 910", "", 60, "12 отзывов", true).render();
-          break;
-        case 3:
-          new Card("Kepma F-01S Black", "img/catalog/card-images/kepma-f-01.jpeg", "Гитары", "39 910", "", 77, "25 отзывов", true).render();
-          break;
-        case 4:
-          new Card("Kepma D1C DREAD", "img/catalog/card-images/kepma-dred-black.jpeg", "Гитары", "32 210", "42 300", 40, "25 отзывов", true).render();
-          break;
-        case 5:
-          new Card("Kepma F1-OM", "img/catalog/card-images/kepma-f1-om.jpeg", "Гитары", "55 010", "", 100, "1 отзыв", true).render();
-          break;
-        case 6:
-          new Card("Kepma ES36-E TRANS K10 Black", "img/catalog/card-images/Kepma-ES36-E.jpg", "Гитары", "35 010", "", 100, "1 отзыв", false).render();
-          break;
-      }
-    }
-  }
+		for (let i = 0; i < 50; i++) {
+			const randomIndex = Math.round(Math.random() * 6);
+			indeces.push(randomIndex);
+			switch (randomIndex) {
+				case 0:
+					new Card("Kepma A1C Sunburst", "img/catalog/card-images/a1c-1.jpg", "Гитары", "18 010", "", 100, "15 отзывов", false).render();
+					break;
+				case 1:
+					new Card("Enya EUC-MAD", "img/catalog/card-images/ukulele.png", "Укулелe", "22 210", "24 890", 90, "12 отзывов", true).render();
+					break;
+				case 2:
+					new Card("Kepma ES36-E TRANS K10 Black", "img/catalog/card-images/kepma-black.jpeg", "Гитары", "32 910", "", 60, "12 отзывов", true).render();
+					break;
+				case 3:
+					new Card("Kepma F-01S Black", "img/catalog/card-images/kepma-f-01.jpeg", "Гитары", "39 910", "", 77, "25 отзывов", true).render();
+					break;
+				case 4:
+					new Card("Kepma D1C DREAD", "img/catalog/card-images/kepma-dred-black.jpeg", "Гитары", "32 210", "42 300", 40, "25 отзывов", true).render();
+					break;
+				case 5:
+					new Card("Kepma F1-OM", "img/catalog/card-images/kepma-f1-om.jpeg", "Гитары", "55 010", "", 100, "1 отзыв", true).render();
+					break;
+				case 6:
+					new Card("Kepma ES36-E TRANS K10 Black", "img/catalog/card-images/Kepma-ES36-E.jpg", "Гитары", "35 010", "", 100, "1 отзыв", false).render();
+					break;
+			}
+		}
+	}
 
-  generateProducts();
+	generateProducts();
 
-  function pushCardValueToLocalStorage() {
-    const cards = document.querySelectorAll(".card");
+	function pushCardValueToLocalStorage() {
+		const cards = document.querySelectorAll(".card");
 
-    cards.forEach((card) => {
-      card.addEventListener("click", function () {
-        localStorage.setItem("card-img-src", this.querySelector(".card__image").getAttribute("src"));
-        localStorage.setItem("card-category", this.querySelector(".card__category").textContent);
-        localStorage.setItem("card-name", this.querySelector(".card__name").textContent);
-        localStorage.setItem("card-price", this.querySelector(".price__new").textContent);
-        localStorage.setItem("card-rating", this.getAttribute("data-rating"));
-      });
-    });
-  }
+		cards.forEach((card) => {
+			card.addEventListener("click", function () {
+				localStorage.setItem(
+					"cardData",
+					JSON.stringify({
+						cardImgSrc: this.querySelector(".card__image").getAttribute("src"),
+						cardCategory: this.querySelector(".card__category").textContent,
+						cardName: this.querySelector(".card__name").textContent,
+						cardPrice: this.querySelector(".price__new").textContent,
+						cardRating: this.getAttribute("data-rating"),
+					}),
+				);
+			});
+		});
+	}
 
-  pushCardValueToLocalStorage();
+	pushCardValueToLocalStorage();
 
-  function changeContentStockText() {
-    document.querySelectorAll("#none").forEach((element) => {
-      element.textContent = "нет в наличии";
-    });
-  }
+	function changeContentStockText() {
+		document.querySelectorAll("#none").forEach((element) => {
+			element.textContent = "нет в наличии";
+		});
+	}
 
-  changeContentStockText();
+	changeContentStockText();
 
-  function stockFilterProducts() {
-    const checkbox = document.querySelector("#in-stock__checkbox");
+	function stockFilterProducts() {
+		const checkbox = document.querySelector("#in-stock__checkbox");
 
-    checkbox.addEventListener("change", () => {
-      if (checkbox.checked) {
-        document.querySelectorAll("#none").forEach((element) => {
-          element.parentElement.parentElement.parentElement.style.display = "none";
-        });
-      } else {
-        document.querySelectorAll("#none").forEach((element) => {
-          element.parentElement.parentElement.parentElement.style.display = "flex";
-        });
-      }
-    });
-  }
+		checkbox.addEventListener("change", () => {
+			if (checkbox.checked) {
+				document.querySelectorAll("#none").forEach((element) => {
+					element.parentElement.parentElement.parentElement.style.display = "none";
+				});
+			} else {
+				document.querySelectorAll("#none").forEach((element) => {
+					element.parentElement.parentElement.parentElement.style.display = "flex";
+				});
+			}
+		});
+	}
 
-  stockFilterProducts();
+	stockFilterProducts();
 
-  function sortingContent() {
-    const sortingSelect = document.querySelector("#catalog-sorting-type");
-    const catalog = document.querySelector(".catalog__grid");
+	function sortingContent() {
+		const sortingSelect = document.querySelector("#catalog-sorting-type");
+		const catalog = document.querySelector(".catalog__grid");
 
-    function insertAfter(elem, refElem) {
-      return refElem.parentNode.insertBefore(elem, refElem.nextSibling);
-    }
+		function insertAfter(elem, refElem) {
+			return refElem.parentNode.insertBefore(elem, refElem.nextSibling);
+		}
 
-    sortingSelect.addEventListener("change", function () {
-      document.querySelectorAll(".card").forEach((card) => {
-        card.remove();
-      });
+		sortingSelect.addEventListener("change", function () {
+			document.querySelectorAll(".card").forEach((card) => {
+				card.remove();
+			});
 
-      generateProducts(); // reload catalog content
+			generateProducts(); // reload catalog content
 
-      let childrenLength = catalog.children.length - 1;
+			let childrenLength = catalog.children.length - 1;
 
-      switch (this.selectedIndex) {
-        case 0:
-          document.location.reload();
-          break;
-        case 1:
-          for (let i = 0; i < childrenLength; i++) {
-            for (let j = 0; j < childrenLength; j++) {
-              if (+catalog.children[i].getAttribute("data-reviews") > +catalog.children[j].getAttribute("data-reviews")) {
-                const replaceNode = catalog.replaceChild(catalog.children[i], catalog.children[j]);
-                insertAfter(replaceNode, catalog.children[i]);
-              }
-            }
-          }
+			switch (this.selectedIndex) {
+				case 0:
+					document.location.reload();
+					break;
+				case 1:
+					for (let i = 0; i < childrenLength; i++) {
+						for (let j = 0; j < childrenLength; j++) {
+							if (+catalog.children[i].getAttribute("data-reviews") > +catalog.children[j].getAttribute("data-reviews")) {
+								const replaceNode = catalog.replaceChild(catalog.children[i], catalog.children[j]);
+								insertAfter(replaceNode, catalog.children[i]);
+							}
+						}
+					}
 
-          break;
-        case 2:
-          for (let i = 0; i < childrenLength; i++) {
-            for (let j = 0; j < childrenLength; j++) {
-              if (+catalog.children[i].getAttribute("data-sort") < +catalog.children[j].getAttribute("data-sort")) {
-                const replaceNode = catalog.replaceChild(catalog.children[i], catalog.children[j]);
-                insertAfter(replaceNode, catalog.children[i]);
-              }
-            }
-          }
+					break;
+				case 2:
+					for (let i = 0; i < childrenLength; i++) {
+						for (let j = 0; j < childrenLength; j++) {
+							if (+catalog.children[i].getAttribute("data-sort") < +catalog.children[j].getAttribute("data-sort")) {
+								const replaceNode = catalog.replaceChild(catalog.children[i], catalog.children[j]);
+								insertAfter(replaceNode, catalog.children[i]);
+							}
+						}
+					}
 
-          break;
-        case 3:
-          for (let i = 0; i < childrenLength; i++) {
-            for (let j = 0; j < childrenLength; j++) {
-              if (+catalog.children[i].getAttribute("data-sort") > +catalog.children[j].getAttribute("data-sort")) {
-                const replaceNode = catalog.replaceChild(catalog.children[i], catalog.children[j]);
-                insertAfter(replaceNode, catalog.children[i]);
-              }
-            }
-          }
-          break;
-      }
+					break;
+				case 3:
+					for (let i = 0; i < childrenLength; i++) {
+						for (let j = 0; j < childrenLength; j++) {
+							if (+catalog.children[i].getAttribute("data-sort") > +catalog.children[j].getAttribute("data-sort")) {
+								const replaceNode = catalog.replaceChild(catalog.children[i], catalog.children[j]);
+								insertAfter(replaceNode, catalog.children[i]);
+							}
+						}
+					}
+					break;
+			}
 
-      cardsQuantity();
-    });
-  }
+			cardsQuantity();
+		});
+	}
 
-  sortingContent();
+	sortingContent();
 
-  function cardsQuantity() {
-    let catalogItems = document.querySelectorAll(".card"),
-      pages;
+	function cardsQuantity() {
+		let catalogItems = document.querySelectorAll(".card"),
+			pages;
 
-    function sliceCatalogItems(itemsQuant) {
-      pages = [];
-      for (let i = 0; i < catalogItems.length; i += itemsQuant) {
-        pages.push([...catalogItems].slice(i, i + itemsQuant));
-      }
-    }
+		function sliceCatalogItems(itemsQuant) {
+			pages = [];
+			for (let i = 0; i < catalogItems.length; i += itemsQuant) {
+				pages.push([...catalogItems].slice(i, i + itemsQuant));
+			}
+		}
 
-    function displayPage(pageIndex) {
-      pages[pageIndex].forEach((item) => {
-        document.querySelector(".catalog__grid").append(item);
-      });
-    }
+		function displayPage(pageIndex) {
+			pages[pageIndex].forEach((item) => {
+				document.querySelector(".catalog__grid").append(item);
+			});
+		}
 
-    function generatePaginationButtons(currentPageIndex) {
-      if (document.querySelectorAll(".page").length > 0) document.querySelectorAll(".page").forEach((page) => page.remove());
+		function generatePaginationButtons(currentPageIndex) {
+			if (document.querySelectorAll(".page").length > 0) document.querySelectorAll(".page").forEach((page) => page.remove());
 
-      const pageline = document.querySelector(".pagination__pages");
+			const pageline = document.querySelector(".pagination__pages");
 
-      function pageEvent(e) {
-        e.preventDefault();
+			function pageEvent(e) {
+				e.preventDefault();
 
-        for (let item of pageline.children) item.classList.remove("page--active");
+				for (let item of pageline.children) item.classList.remove("page--active");
 
-        this.classList.add("page--active");
+				this.classList.add("page--active");
 
-        managePages(+this.textContent - 1);
-      }
+				managePages(+this.textContent - 1);
+			}
 
-      for (let i = 0; i < pages.length; i++) {
-        const pageLink = document.createElement("a");
-        pageLink.setAttribute("href", "#");
-        i === currentPageIndex ? (pageLink.className = "page page--active") : (pageLink.className = "page");
-        pageLink.textContent = i + 1;
-        pageLink.addEventListener("click", pageEvent);
+			for (let i = 0; i < pages.length; i++) {
+				const pageLink = document.createElement("a");
+				pageLink.setAttribute("href", "#");
+				i === currentPageIndex ? (pageLink.className = "page page--active") : (pageLink.className = "page");
+				pageLink.textContent = i + 1;
+				pageLink.addEventListener("click", pageEvent);
 
-        pageline.append(pageLink);
-      }
-    }
+				pageline.append(pageLink);
+			}
+		}
 
-    function managePages(pageIndex) {
-      sliceCatalogItems(+document.querySelector("#cards-quantity__input").value);
+		function managePages(pageIndex) {
+			sliceCatalogItems(+document.querySelector("#cards-quantity__input").value);
 
-      catalogItems.forEach((item) => {
-        item.remove();
-      });
-      displayPage(pageIndex);
-      generatePaginationButtons(pageIndex); //
-    }
+			catalogItems.forEach((item) => {
+				item.remove();
+			});
+			displayPage(pageIndex);
+			generatePaginationButtons(pageIndex); //
+		}
 
-    managePages(0);
+		managePages(0);
 
-    generatePaginationButtons(0);
+		generatePaginationButtons(0);
 
-    document.querySelector("#cards-quantity__input").addEventListener("change", () => {
-      managePages(document.querySelector(".page--active").textContent - 1);
-    });
-  }
+		document.querySelector("#cards-quantity__input").addEventListener("change", () => {
+			managePages(document.querySelector(".page--active").textContent - 1);
+		});
+	}
 
-  cardsQuantity();
+	cardsQuantity();
 
-  function catalogLayoutButtons() {
-    const gridBtn = document.querySelector("#grid-layout"),
-      wideBtn = document.querySelector("#wide-layout"),
-      catalogGrid = document.querySelector(".catalog__grid");
+	function catalogLayoutButtons() {
+		const gridBtn = document.querySelector("#grid-layout"),
+			wideBtn = document.querySelector("#wide-layout"),
+			catalogGrid = document.querySelector(".catalog__grid");
 
-    gridBtn.addEventListener("click", function () {
-      this.classList.add("active-layout");
-      wideBtn.classList.remove("active-layout");
+		gridBtn.addEventListener("click", function () {
+			this.classList.add("active-layout");
+			wideBtn.classList.remove("active-layout");
 
-      catalogGrid.classList.remove("catalog__grid--wide");
+			catalogGrid.classList.remove("catalog__grid--wide");
 
-      document.querySelectorAll(".card").forEach((card) => {
-        card.classList.remove("card--wide");
-      });
-    });
+			document.querySelectorAll(".card").forEach((card) => {
+				card.classList.remove("card--wide");
+			});
+		});
 
-    wideBtn.addEventListener("click", function () {
-      document.querySelectorAll(".card").forEach((card) => {
-        card.remove();
-      });
+		wideBtn.addEventListener("click", function () {
+			document.querySelectorAll(".card").forEach((card) => {
+				card.remove();
+			});
 
-      generateProducts(); // reload catalog content
+			generateProducts(); // reload catalog content
 
-      this.classList.add("active-layout");
-      gridBtn.classList.remove("active-layout");
+			this.classList.add("active-layout");
+			gridBtn.classList.remove("active-layout");
 
-      catalogGrid.classList.add("catalog__grid--wide");
+			catalogGrid.classList.add("catalog__grid--wide");
 
-      document.querySelectorAll(".card").forEach((card) => {
-        card.classList.add("card--wide");
-      });
+			document.querySelectorAll(".card").forEach((card) => {
+				card.classList.add("card--wide");
+			});
 
-      cardsQuantity();
-    });
-  }
+			cardsQuantity();
+		});
+	}
 
-  catalogLayoutButtons();
+	catalogLayoutButtons();
 }
 
 module.exports = catalog;
